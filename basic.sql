@@ -197,9 +197,125 @@ select * from employee where ename like 's%' and salary >= 10000
 --14) display all records from book table where either bookid lies in range 1001 to 2000 or price ranges in 1000 to 2500
 select * from book where bid between 1001 and 2000 or price between 1000 and 2500
 --output : 2 science HPK 2000 2
---	   3 social SA 1000 3
+--		   3 social SA 1000 3
 --15) display isbn number and bookname where booklist must not contain isbn no. 3
 select isbn, name from booklist where isbn not like '3'
 --output : 1 1 math
---	   2 science 
---	   4 physics
+--		   2 science 
+--		   4 physics
+
+----------------------------------lab 3---------------------------------------------------
+
+--Q) find all the bokname, publication name and author name where publication name is "ekta"
+SELECT  bname,author,booklist.publication from book
+INNER JOIN  booklist 
+on book.bname = booklist.name
+where booklist.publication = 'puspa'
+--Q)find the teacher name and faculty who issued book on 2023-1-1
+alter table issues
+add tid int;
+
+alter table issues
+add foreign key(tid) references teacher(tid); 
+
+update issues
+set tid = '1'
+where dateofissue = '2023-1-1'
+
+select teacher.name , teacher.faculty,issues.dateofissue from teacher, issues where teacher.tid = issues.tid and issues.dateofissue = '2023-1-1'
+
+--Q3)find the employee name whose salary is greter then 10000 and facuty is 'computer'
+
+alter table teacher
+add eid int;
+
+alter table teacher
+add foreign key(eid)references employee(eid);
+
+update teacher
+set eid = '1'
+where tid = '1'
+
+update teacher
+set eid = '2'
+where tid = '2'
+
+update teacher
+set eid = '3'
+where tid = '3'
+
+update teacher
+set eid = '4'
+where tid = '4'
+
+update teacher
+set eid = '4'
+where tid = '5'
+
+select ename,employee.salary,teacher.faculty from employee inner join teacher on employee.eid = teacher.eid
+where employee.salary > 10000 and teacher.faculty = 'BEI' 
+/* ename   salary faculty
+ 1 ram     20000  bei
+ 2 prakash 25000  bei
+ */
+ --4) add attribute bid on issues relation.
+ alter table issues
+ add bid int;
+ --5) insert the data in bid column.
+  update issues
+set bid = '1'
+where iid = '1'
+
+ update issues
+set bid = '2'
+where iid = '2'
+
+ update issues
+set bid = '4'
+where iid = '4'
+ 
+ update issues
+set bid = '3'
+where iid = '3'
+ 
+ --6)find the teacher name and bookname issued by the teacher whose name start with 's'
+
+ update issues
+set tid = '2'
+where iid = '2'
+
+ update issues
+set tid = '3'
+where iid = '3'
+
+ update issues
+set tid = '4'
+where iid = '4'
+
+select teacher.name, issues.name from teacher inner join issues on teacher.tid = issues.tid where teacher.name like 's%'
+/* name  name 
+1  shiva social
+
+--7) update all salary by 10%
+*/
+
+update employee
+set salary = salary * 0.1 + salary;
+
+select * from employee;
+
+/*eid ename          date_of_employee salary 
+1 1   ram             2010-01-01	22000
+2 2	 shyam		      2011-05-02	165000
+3 3	 hari			  2012-06-06	9900
+4 4	 prakash	      2013-05-09	27500                                      
+*/
+--8)update book name maths to mathematics
+
+update book
+set bname = 'mathematics' where bname = 'math'
+
+--9) update the salary o all employee by 20% whose salary is less than 5000 
+update employee 
+set salary  = 1.1 * salary where salary < 10000
+
