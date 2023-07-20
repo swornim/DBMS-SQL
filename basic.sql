@@ -319,3 +319,72 @@ set bname = 'mathematics' where bname = 'math'
 update employee 
 set salary  = 1.1 * salary where salary < 10000
 
+--10) provided 5% increment to all salaries whose salary is greater than 20000 and 20% increment is rest of salaries.(use CASE WHEN < CONDITIONS>THEN <STATEMENT> ELSE<STATEMENT> END).
+update employee
+set salary = case when salary > 20000 then salary * 1.05 
+				  else salary* 1.2
+end;
+
+--11) delte the records from empolyee table whose eid is 4
+delete from employee where eid = 1
+--12)use sub query to find all teacher name and faculty whose date of employee is jan 2,2011
+select * from employee
+select * from teacher
+select name, faculty from teacher where eid in(select eid from employee where  date_of_employee = '2010-01-01') 
+/* output:-
+	name	faculty
+1	ramu	bei
+*/
+--13) use sub query to find all the bok name and author name whose publication is "puspa"
+select bname, author from book where bid in  (select bid from booklist where publication = 'puspa')
+/*output
+	bname		author
+1	mathematics IA
+*/
+----------------------------------lab 4: ----------------------------------------------------------------
+--1)sort the employee records in descending order.
+select * from employee order by	ename desc;
+/*
+eid ename  date_of_employee salary  faculty 
+2	shyam  2011-05-02	  173250	NULL
+1	ram     2010-01-01	  23100	    NULL
+4	prakash	2013-05-09	  28875  	NULL
+3	hari   2012-06-06	  11880 	NUL
+*/
+
+-- 2)sort name and punlication name in ascending order
+select * from booklist order by name,publication
+/* 
+isbn name  publication 
+1	math   read more                                         
+4	physics stanford                                          
+2	science puspa                                             
+3	social  mcGraw Hill                                       
+*/
+--3)display top three records from teachers relation 
+SELECT TOP 3 * FROM teacher;
+/*
+tid name  faculty  salary  eid
+1	ramu	bei 	NULL	1
+2	hari	bct	    NULL	2
+3	shiva	bei 	NULL	3
+*/
+--4)display the sum of salaries of all employee
+select SUM(salary) from employee
+--237105
+
+--5)display the minimum salary of employee
+select min(salary) from employee
+--11880
+--6)display the average price of book wirteen by same author
+insert into book values(5,'eco', 'IA', 6000,1)
+select author , AVG(price)as average from book 
+group by author
+/*
+author												average
+HPK                                               	2000
+IA                                                	5500
+SA                                                	1000
+SPA                                               	3000
+*/
+--7)display publicaton name and number of books published by it from book list realtion publication wise.
