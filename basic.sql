@@ -387,4 +387,78 @@ IA                                                	5500
 SA                                                	1000
 SPA                                               	3000
 */
---7)display publicaton name and number of books published by it from book list realtion publication wise.
+--7)display publicaton name and number of books published by 
+--  it from book list realtion publication wise.
+select publication, COUNT(*) as countNum from booklist group by publication
+/*
+publication                                      countNum
+mcGraw Hill                                       	1
+puspa                                             	1
+read more                                         	1
+stanford                                          	1
+*/
+--8) display the bid and bname of boks whose price is greater than average prices of book.
+select bid,bname from book where price > (select AVG(price) from book) 
+/*
+bid bname
+1	mathematics                                       
+5	eco
+*/
+-- 9) find the bid, bname and author in ascending order where author name is started by "s"
+select bid,bname,author  from book where author like 's%' order by author    
+/* 
+bid bname                                              author 
+ 3	social                                            	SA                                                
+4	physics                                           	SPA     
+*/
+--10)find the teacher name and book taken by him.The teacher's salary who take the book should be 
+-- the maximum salary   
+update teacher
+set salary = 400000 where tid = 1
+
+update teacher
+set salary = 300000 where tid = 2
+
+update teacher
+set salary = 200000 where tid = 3
+
+update teacher
+set salary = 100000 where tid = 4
+
+update teacher
+set salary = 40000 where tid = 5
+
+select teacher.name, book.bname from teacher,book where tid = bid and  teacher.salary in (select max(salary) from teacher)
+/*
+name bname
+ramu mathematics
+--11)find the author name who have writeen more than one book
+*/
+select author from book group by author having COUNT(*) > 1
+/* author
+	IA
+*/
+------------------------lab 5: introduction to joins and creating views------------------------------
+--1) PERFORM join operation on teaacher and employee table and display the Ename, Faculty and salary 
+select employee.ename,teacher.salary, teacher.faculty from employee inner join teacher on teacher.eid = employee.eid
+/*
+ename                                               salary  faculty 
+ram                                               	400000	bei
+shyam                                             	300000	bct
+hari                                              	200000	bei
+prakash                                           	100000	bca
+prakash                                           	40000	bei
+*/
+--2) Perfom left join on table book list and book table 
+select * from book
+select * from booklist
+
+select * from booklist inner join book on book.bid = booklist.bid
+/*
+isbn name                                              publicaiton                                         bid  tid    bid   bname                                          author                                                price     iid
+1	math                                              	read more                                         	1	NULL	1	mathematics                                       	IA                                                	5000	NULL
+2	science                                           	puspa                                             	2	NULL	2	science                                           	HPK                                               	2000	NULL
+3	social                                            	mcGraw Hill                                       	3	NULL	3	social                                            	SA                                                	1000	NULL
+4	physics                                           	stanford                                          	4	NULL	4	physics                                           	SPA                                               	3000	NULL
+*/
+--3) perfrom right join on booklist and book table
