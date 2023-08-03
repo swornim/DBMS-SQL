@@ -462,3 +462,81 @@ isbn name                                              publicaiton              
 4	physics                                           	stanford                                          	4	NULL	4	physics                                           	SPA                                               	3000	NULL
 */
 --3) perfrom right join on booklist and book table
+select * from booklist right join book on book.bid = booklist.bid
+/*
+isbn name                                                publication                                       bid  tid     bid bname                                               author                                              price   iid
+1	math                                              	read more                                         	1	NULL	1	mathematics                                       	IA                                                	5000	NULL
+2	science                                           	puspa                                             	2	NULL	2	science                                           	HPK                                               	2000	NULL
+3	social                                            	mcGraw Hill                                       	3	NULL	3	social                                            	SA                                                	1000	NULL
+4	physics                                           	stanford                                          	4	NULL	4	physics                                           	SPA                                               	3000	NULL
+NULL	NULL	                                            NULL	                                       NULL	NULL	5	eco                                               	IA                                                	6000	1
+*/
+--4)perofrm full join on student and isues table
+update student 
+set tid = 1 where ID = 1
+
+update student 
+set tid = 2 where ID = 2
+
+update student 
+set tid = 3 where ID = 3
+
+update student 
+set tid = 4 where ID = 4
+
+update student 
+set tid = 5 where ID = 5
+
+select * from student full join issues on student.tid = issues.tid
+/*
+ID  Name  batch tid iid name                                               dateofissues tid bid
+1	rummani	BEI	1	1	math                                              	2023-01-01	1	1
+2	swornim	BEI	2	2	science                                           	2022-07-09	2	2
+3	rammani	BEI	3	3	social                                            	2023-09-09	3	3
+4	ram	BEI	4	4	physics                                           	2024-06-25	4	4
+5	shyam	BEI	5	NULL	NULL	NULL	NULL	NULL
+
+*/
+--5) display those employees name and salary whose name stars with 's' ans whose name consists 'ni' as sub string
+select ename, salary  from employee where ename like 's%' and ename like '%ya%'
+-- ename salary 
+-- shyam 173250
+--6)display name of the employee who is also a teacher
+select * from employee
+select * from teacher
+
+select name  from teacher inner join employee on teacher.eid = employee.eid
+/*
+name
+ramu
+hari
+shiva
+ramesh
+ramchandra
+*/
+
+--7) display all employee name except the name who are teachers
+select distinct ename from employee inner join teacher on ename!= name
+/*
+ename
+hari
+prakash
+ram
+shyam
+*/
+--8) create a view employee-view which consist of eid,ename,salary as atributesw
+create view  employee_view  as
+select eid,ename,salary from employee
+--9) insert an new record in recenty created veiw. and also display the contents of primary table.
+select * from employee
+insert into employee_view values(5,'shiva',77880)
+/*
+eid ename												salary
+1	ram                                               	23100
+2	shyam                                             	173250
+3	hari                                              	11880
+4	prakash                                           	28875
+5	shiva                                             	77880
+*/
+--10) delete the information from view where salary are less than 5000
+delete employee_view where salary < 30000
